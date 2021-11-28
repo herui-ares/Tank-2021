@@ -20,13 +20,13 @@ public class MapCtration : MonoBehaviour
         CreateItem(item[0], new Vector3(0, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(0, -8, 0));
         //用墙把老家围起来
-        CreateItem(item[1], new Vector3(-1, -8, 0), Quaternion.identity);
+        CreateItem(item[2], new Vector3(-1, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(-1, -8, 0));
-        CreateItem(item[1], new Vector3(1, -8, 0), Quaternion.identity);
+        CreateItem(item[2], new Vector3(1, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(1, -8, 0));
         for (int i = -1; i < 2; i++)
         {
-            CreateItem(item[1], new Vector3(i, -7, 0), Quaternion.identity);
+            CreateItem(item[2], new Vector3(i, -7, 0), Quaternion.identity);
             itemPositionList.Add(new Vector3(i, -7, 0));
         }
         //实例化外围墙

@@ -13,11 +13,17 @@ public class Enemy : MonoBehaviour
     private int num;
     private Vector3 prePosition;
 
+    public int lifeValue;
+
+    private bool award;
+
 
 
     //引用
-    private SpriteRenderer sr;
-    public Sprite[] tankeSprite;//上右下左
+    //private SpriteRenderer sr;
+    //public Sprite[] tankeSprite;//上右下左
+    private Animator a_tor;
+    public RuntimeAnimatorController[] tankAnimator;
     public GameObject bulletPrefab;
     public GameObject explosionPrefab;
     //计时器
@@ -25,11 +31,19 @@ public class Enemy : MonoBehaviour
     private float timevalChangeDirection = 0;
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        //sr = GetComponent<SpriteRenderer>();
+        a_tor = GetComponent<Animator>();
+        num = Random.Range(0, 2);
+        if (num == 1)
+        {
+            award = true;
+            ++lifeValue;
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
+        // Update is called once per frame
+        void Update()
     {
 
         
@@ -99,12 +113,29 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector3.right * h * moveSpeed * Time.deltaTime, Space.World);
         if (h < 0)
         {
-            sr.sprite = tankeSprite[3];
+            //sr.sprite = tankeSprite[3];
+            
+            if(award == false)
+            {
+                a_tor.runtimeAnimatorController = tankAnimator[3];
+            }
+            else
+            {
+                a_tor.runtimeAnimatorController = tankAnimator[7];
+            }
             bulletEulerAngles = new Vector3(0, 0, 90);
         }
         else if (h > 0)
         {
-            sr.sprite = tankeSprite[1];
+            //sr.sprite = tankeSprite[1];
+            if (award == false)
+            {
+                a_tor.runtimeAnimatorController = tankAnimator[1];
+            }
+            else
+            {
+                a_tor.runtimeAnimatorController = tankAnimator[5];
+            }
             bulletEulerAngles = new Vector3(0, 0, -90);
         }
         if (h != 0) return;//
@@ -114,15 +145,41 @@ public class Enemy : MonoBehaviour
 
         if (v < 0)
         {
-            sr.sprite = tankeSprite[2];
+            //sr.sprite = tankeSprite[2];
+            if (award == false)
+            {
+                a_tor.runtimeAnimatorController = tankAnimator[2];
+            }
+            else
+            {
+                a_tor.runtimeAnimatorController = tankAnimator[6];
+            }
             bulletEulerAngles = new Vector3(0, 0, -180);
         }
         else if (v > 0)
         {
-            sr.sprite = tankeSprite[0];
+            //sr.sprite = tankeSprite[0];
+            if (award == false)
+            {
+                a_tor.runtimeAnimatorController = tankAnimator[0];
+            }
+            else
+            {
+                a_tor.runtimeAnimatorController = tankAnimator[4];
+            }
             bulletEulerAngles = new Vector3(0, 0, 0);
         }
         
+    }
+    //
+    private void Blend()
+    {
+        lifeValue--;
+        award = false;
+        if(lifeValue <= 0)
+        {
+            Die();
+        }
     }
     //坦克的死亡方法
     private void Die()

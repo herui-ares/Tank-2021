@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
             case "Enemy": 
                 if(isPlayerBullet)
                 {
-                    collision.SendMessage("Die");
+                    collision.SendMessage("Blend");
                     Destroy(gameObject);
                 }
                 

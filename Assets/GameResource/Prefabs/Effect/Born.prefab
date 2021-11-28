@@ -117,6 +117,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 1989431833146311326, guid: e241e583a2b187b4c90ba32f9af5e40c,
     type: 3}
   enemyPrefabList:
-  - {fileID: 5198080522177021731, guid: af6e6e5ab85820d4d8a0ae7a54cb26a2, type: 3}
-  - {fileID: 4557997176548271824, guid: 8db2730a15fd1514c88cd038cabada2f, type: 3}
+  - {fileID: 326795183089572751, guid: 763381750e56dfb42b814bdb65cd233b, type: 3}
+  - {fileID: 7890335404590702638, guid: 0b5f1cbe528630840b7333ea0f05c6e4, type: 3}
+  - {fileID: 3752521796338212214, guid: cadde0ae39c5dd34b94f5b95bb6a811e, type: 3}
   cratePlayer: 0
