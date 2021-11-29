@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     public int lifeValue = 3;
     public int playerScore = 0;
     public bool isDead = false;
+    public bool isLive = false;
     public bool isDefeat = false;
     //引用
     public GameObject born;
@@ -54,6 +55,10 @@ public class PlayerManager : MonoBehaviour
             Recover();
             
         }
+        if(isLive)
+        {
+            AddLife();
+        }
             
         PlayerScoreText.text = playerScore.ToString();
         PlayerLifeValueText.text = lifeValue.ToString();
@@ -73,6 +78,11 @@ public class PlayerManager : MonoBehaviour
             go.GetComponent<Born>().cratePlayer = true;
             isDead = false;
         }
+    }
+    public void AddLife() 
+    {
+        lifeValue++;
+        isLive = false;
     }
     private void ReturnToTheMainMenu()
     {

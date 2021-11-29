@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad95b2101c2c9e4cb5632fdf337b4b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 15
   isPlayerBullet: 1
 --- !u!61 &4284759558359993822
 BoxCollider2D:

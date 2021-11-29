@@ -6,11 +6,13 @@ public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
     //属性值
-    public float moveSpeed = 3;
+    public float moveSpeed = 6;
     private Vector3 bulletEulerAngles;
     private float timeVal = 0;
     private float defendTime = 3;
     private bool isDefended = true;
+    private int grade = 0;
+    private float powerTime = 0.4f;
 
 
     //引用
@@ -45,7 +47,7 @@ public class Player : MonoBehaviour
             }
         }
         //攻击的CD
-        if (timeVal >= 0.4f)
+        if (timeVal >= powerTime)
         {
             Attack();
         }
@@ -147,5 +149,26 @@ public class Player : MonoBehaviour
 
         //死亡
         Destroy(gameObject);
+    }
+    private void FirePower()
+    {
+        grade++;
+        Bullet bs = bulletPrefab.GetComponent<Bullet>();
+        if (grade == 1)
+        {
+            
+            bs.moveSpeed = 20;
+            powerTime = 0.2f;
+        }
+        else if(grade >= 2)
+        {
+            bs.moveSpeed = 20;
+            powerTime = 0.1f;
+        }
+    }
+    private void Cover()
+    {
+        isDefended = true;
+        defendTime = 20;
     }
 }

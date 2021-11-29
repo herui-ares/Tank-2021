@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
     public RuntimeAnimatorController[] tankAnimator;
     public GameObject bulletPrefab;
     public GameObject explosionPrefab;
+    public AudioClip hitAudio;
+    public GameObject Prop;
     //计时器
     private float timeVal = 0;
     private float timevalChangeDirection = 0;
@@ -80,7 +82,7 @@ public class Enemy : MonoBehaviour
     {
         if(timevalChangeDirection >= 3)
         {
-            Debug.Log("我改变了一下方向");
+            //Debug.Log("我改变了一下方向");
             num = Random.Range(0, 4);
             if(num == 3)
             {
@@ -175,10 +177,20 @@ public class Enemy : MonoBehaviour
     private void Blend()
     {
         lifeValue--;
-        award = false;
+        if(award == true)
+        {
+            award = false;
+            Vector3 RandomPosition = new Vector3(Random.Range(-10, 11), Random.Range(-8, 8), 0);
+            Instantiate(Prop, RandomPosition, Quaternion.identity);
+        }
+        
         if(lifeValue <= 0)
         {
             Die();
+        }
+        else
+        {
+            PlayAudio();
         }
     }
     //坦克的死亡方法
@@ -197,38 +209,11 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             timevalChangeDirection = 4.0f;
-            //Debug.Log("我碰到了" + collision.gameObject.tag);
-/*
-            Debug.Log("我在碰撞里改变了一下方向");
-            int randnum = Random.Range(0, 4);
-            while (randnum == num)
-            {
-                randnum = Random.Range(0, 4);
-            }
-            num = randnum;
-            if (num == 3)
-            {
-                v = -1;
-                h = 0;
-            }
-            else if (num == 0)
-            {
-                v = 1;
-                h = 0;
-            }
-            else if (num == 1)
-            {
-                v = 0;
-                h = -1;
-            }
-            else if (num == 2)
-            {
-                v = 0;
-                h = 1;
-            }
-            timevalChangeDirection = 0;
-            */
         }
+    }
+    public void PlayAudio()
+    {
+        AudioSource.PlayClipAtPoint(hitAudio, transform.position);
     }
 }
 

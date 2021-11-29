@@ -760,6 +760,7 @@ MonoBehaviour:
   lifeValue: 3
   playerScore: 0
   isDead: 0
+  isLive: 0
   isDefeat: 0
   born: {fileID: 7856036657485080666, guid: 92422b6e183ada14e86bcd4278bc7d0c, type: 3}
   PlayerScoreText: {fileID: 631975172}

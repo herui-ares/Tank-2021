@@ -13,7 +13,7 @@ public class StrongEnemy : MonoBehaviour
     private int num;
     private Vector3 prePosition;
 
-    private int flag; //0 代表普通  1代表黄色   2 代表绿色
+    public int flag; //0 代表普通  1代表黄色   2 代表绿色
     public int lifeValue = 1;
     private bool award;
 
@@ -26,6 +26,8 @@ public class StrongEnemy : MonoBehaviour
     public RuntimeAnimatorController[] tankAnimator;
     public GameObject bulletPrefab;
     public GameObject explosionPrefab;
+    public AudioClip hitAudio;
+    public GameObject Prop;
     //计时器
     private float timeVal = 0;
     private float timevalChangeDirection = 0;
@@ -222,11 +224,34 @@ public class StrongEnemy : MonoBehaviour
     private void Blend()
     {
         lifeValue--;
-        flag--;
-        award = false;
+        //flag--;
+        if(award == true)
+        {
+           // while (true)
+           // {
+                Vector3 RandomPosition = new Vector3(Random.Range(-10, 11), Random.Range(-8, 8), 0);
+            
+               // if (RodomPosition != new Vector3(0, -8, 0))
+               // {
+                  //  break;
+               // }
+            //}
+            Instantiate(Prop, RandomPosition, Quaternion.identity);
+            award = false;
+        }
+        else
+        {
+            flag = Mathf.Max(--flag, 0);
+        }
+        
+        Debug.Log("the flag = " + flag);
         if (lifeValue <= 0)
         {
             Die();
+        }
+        else
+        {
+            PlayAudio();
         }
     }
     //坦克的死亡方法
@@ -247,6 +272,10 @@ public class StrongEnemy : MonoBehaviour
             timevalChangeDirection = 4.0f;
            
         }
+    }
+    public void PlayAudio()
+    {
+        AudioSource.PlayClipAtPoint(hitAudio, transform.position);
     }
 }
 

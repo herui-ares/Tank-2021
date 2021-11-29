@@ -99,12 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3b3e4d5d07cc2e418f49ffae948b247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  tankeSprite:
-  - {fileID: 21300000, guid: c3a4b3c783ddce7438622efbc82d5538, type: 3}
-  - {fileID: 21300016, guid: c3a4b3c783ddce7438622efbc82d5538, type: 3}
-  - {fileID: 21300032, guid: c3a4b3c783ddce7438622efbc82d5538, type: 3}
-  - {fileID: 21300048, guid: c3a4b3c783ddce7438622efbc82d5538, type: 3}
+  moveSpeed: 6
+  tankAnimator:
+  - {fileID: 9100000, guid: 76e82eb5b11140f4b891bd5250137f99, type: 2}
+  - {fileID: 9100000, guid: bf052465704fffe4ead1e93da1236fdf, type: 2}
+  - {fileID: 9100000, guid: dba494fd1b769a94fac118240c663ac8, type: 2}
+  - {fileID: 9100000, guid: 72fb2114870b4814ea849668ce08af1c, type: 2}
   bulletPrefab: {fileID: 327775809252804755, guid: 22dc5a2343bedca4199fbc388ecc54c8,
     type: 3}
   explosionPrefab: {fileID: 1999039476538798581, guid: 0017208493c48dd4ab5a9c795ee2f5d5,
@@ -114,11 +114,6 @@ MonoBehaviour:
   tankAudio:
   - {fileID: 8300000, guid: c5cfdb88353725d4e80bb5a486606c9e, type: 3}
   - {fileID: 8300000, guid: 9e338ba8c87e0ba4aaf9d88ae7141118, type: 3}
-  tankAnimator:
-  - {fileID: 9100000, guid: 76e82eb5b11140f4b891bd5250137f99, type: 2}
-  - {fileID: 9100000, guid: bf052465704fffe4ead1e93da1236fdf, type: 2}
-  - {fileID: 9100000, guid: dba494fd1b769a94fac118240c663ac8, type: 2}
-  - {fileID: 9100000, guid: 72fb2114870b4814ea849668ce08af1c, type: 2}
 --- !u!61 &-2134424974848084883
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -20,16 +20,16 @@ public class MapCtration : MonoBehaviour
         CreateItem(item[0], new Vector3(0, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(0, -8, 0));
         //用墙把老家围起来
-        CreateItem(item[2], new Vector3(-1, -8, 0), Quaternion.identity);
+        CreateItem(item[1], new Vector3(-1, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(-1, -8, 0));
-        CreateItem(item[2], new Vector3(1, -8, 0), Quaternion.identity);
+        CreateItem(item[1], new Vector3(1, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(1, -8, 0));
         for (int i = -1; i < 2; i++)
         {
-            CreateItem(item[2], new Vector3(i, -7, 0), Quaternion.identity);
+            CreateItem(item[1], new Vector3(i, -7, 0), Quaternion.identity);
             itemPositionList.Add(new Vector3(i, -7, 0));
         }
-        //实例化外围墙
+        //实例化外围墙  空气墙
         for (int i = -11; i < 12; i++)
         {
             CreateItem(item[6], new Vector3(i, 9, 0), Quaternion.identity);
@@ -97,7 +97,7 @@ public class MapCtration : MonoBehaviour
         //不生成x=-10,10,的两列，y=-8,8正两行的位置
         while(true)
         {
-            Vector3 createPosition = new Vector3(Random.Range(-9, 10), Random.Range(-7, 8), 0);
+            Vector3 createPosition = new Vector3(Random.Range(-10, 11), Random.Range(-7, 8), 0);
             if(!HasThePosition(createPosition))
             {
                 return createPosition;
@@ -136,4 +136,5 @@ public class MapCtration : MonoBehaviour
         }
         CreateItem(item[3], EnemyPos, Quaternion.identity);
     }
+    
 }
