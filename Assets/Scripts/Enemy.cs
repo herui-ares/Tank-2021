@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
     private float timevalChangeDirection = 0;
     void Start()
     {
+        PropFlag.boomFlag = false;
         //sr = GetComponent<SpriteRenderer>();
         a_tor = GetComponent<Animator>();
         num = Random.Range(0, 2);
@@ -41,7 +42,7 @@ public class Enemy : MonoBehaviour
             award = true;
             ++lifeValue;
         }
-
+       
     }
 
         // Update is called once per frame
@@ -49,6 +50,37 @@ public class Enemy : MonoBehaviour
     {
 
         
+        
+    }
+    private void FixedUpdate()//这里面执行可以避免碰墙抖动
+    {
+        if(PropFlag.stopFlag == true)
+        {
+            //Debug.Log("the time" + stopTime);
+            pubArg.stopTime -= Time.deltaTime;
+            if (pubArg.stopTime <= 0)
+            {
+                pubArg.stopTime = 50;
+                PropFlag.stopFlag = false;
+            }
+            else
+            {
+                return;
+            }
+               
+        }
+        Move();
+        
+        Vector3 curPosition = transform.position;
+        if(prePosition == curPosition)
+        {
+            timevalChangeDirection = 4.0f;
+        }
+        prePosition = curPosition;
+        if(PropFlag.boomFlag == true)
+        {
+            Die();
+        }
         //攻击的时间间隔
         if (timeVal >= 2f)
         {
@@ -58,17 +90,6 @@ public class Enemy : MonoBehaviour
         {
             timeVal += Time.deltaTime;
         }
-    }
-    private void FixedUpdate()//这里面执行可以避免碰墙抖动
-    {
-        Move();
-        
-        Vector3 curPosition = transform.position;
-        if(prePosition == curPosition)
-        {
-            timevalChangeDirection = 4.0f;
-        }
-        prePosition = curPosition;
     }
 
     //坦克的攻击方法

@@ -27,8 +27,13 @@ public class Born : MonoBehaviour
         }
         else
         {
+            
             int num = Random.Range(0, 3);
             Instantiate(enemyPrefabList[num], transform.position, transform.rotation);
+            //Debug.Log("我正在生成");
+            //ObjectPool.Instance.Get(transform.position, transform.rotation);
+           // ObjectPool.Instance.Get
+            
         }
         
     }

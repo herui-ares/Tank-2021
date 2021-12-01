@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class pubArg
+{
+    public static float stopTime = 50;
+    public static int enemyNum = 0;
+    public static float protectTime = 10;
+}
 public class MapCtration : MonoBehaviour
 {
     //装饰初始化地图的数组
@@ -10,6 +16,49 @@ public class MapCtration : MonoBehaviour
 
     //已经有东西的位置列表
     private List<Vector3> itemPositionList = new List<Vector3>();
+
+    GameObject ite1;
+    GameObject ite2;
+    GameObject ite3;
+    GameObject ite4;
+    GameObject ite5;
+    bool isIns = false;
+    void Update()
+    {
+        //生成保护的家
+        if (PropFlag.protect == true && isIns == false)
+        {
+            ite1 =  Instantiate(item[2], new Vector3(-1, -8, 0), Quaternion.identity);
+            ite2 =  Instantiate(item[2], new Vector3(1, -8, 0), Quaternion.identity);
+            ite3 =  Instantiate(item[2], new Vector3(-1, -7, 0), Quaternion.identity);
+            ite4 =  Instantiate(item[2], new Vector3(0, -7, 0), Quaternion.identity);
+            ite5 =  Instantiate(item[2], new Vector3(1, -7, 0), Quaternion.identity);
+            isIns = true;
+            pubArg.protectTime = 10;
+        }
+        if(PropFlag.protect == true)
+        {
+            pubArg.protectTime -= Time.deltaTime;
+        }
+        
+        if(pubArg.protectTime <= 0 && PropFlag.protect == true)
+        {
+            Destroy(ite1);
+            Destroy(ite2);
+            Destroy(ite3);
+            Destroy(ite4);
+            Destroy(ite5);
+            Instantiate(item[1], new Vector3(-1, -8, 0), Quaternion.identity);
+            Instantiate(item[1], new Vector3(1, -8, 0), Quaternion.identity);
+            Instantiate(item[1], new Vector3(-1, -7, 0), Quaternion.identity);
+            Instantiate(item[1], new Vector3(0, -7, 0), Quaternion.identity);
+            Instantiate(item[1], new Vector3(1, -7, 0), Quaternion.identity);
+            pubArg.protectTime = 10;
+            isIns = false;
+            PropFlag.protect = false;
+        }
+
+    }
     private void Awake()
     {
         InitMap();
@@ -17,9 +66,11 @@ public class MapCtration : MonoBehaviour
     private void InitMap()
     {
         //实例化老家
-        CreateItem(item[0], new Vector3(0, -8, 0), Quaternion.identity);
+        Instantiate(item[0], new Vector3(0, -8, 0), Quaternion.identity);
+        //CreateItem(item[0], new Vector3(0, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(0, -8, 0));
         //用墙把老家围起来
+        //
         CreateItem(item[1], new Vector3(-1, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(-1, -8, 0));
         CreateItem(item[1], new Vector3(1, -8, 0), Quaternion.identity);
@@ -55,8 +106,8 @@ public class MapCtration : MonoBehaviour
         CreateItem(item[3], new Vector3(-10, 8, 0), Quaternion.identity);
         CreateItem(item[3], new Vector3(0, 8, 0), Quaternion.identity);
         CreateItem(item[3], new Vector3(8, 8, 0), Quaternion.identity);
-
         InvokeRepeating("CreateEnemy", 4, 5);
+        
         //实例化地图
         for (int i = 0; i < 20; i++)
         {
@@ -120,21 +171,25 @@ public class MapCtration : MonoBehaviour
     }
     private void CreateEnemy()
     {
-        Vector3 EnemyPos = new Vector3();
-        int num = Random.Range(0, 3);
-        if(num == 0)
+        if (pubArg.enemyNum <= 8)
         {
-            EnemyPos = new Vector3(-10, 8, 0);
+            Vector3 EnemyPos = new Vector3();
+            int num = Random.Range(0, 3);
+            if (num == 0)
+            {
+                EnemyPos = new Vector3(-10, 8, 0);
+            }
+            if (num == 1)
+            {
+                EnemyPos = new Vector3(0, 8, 0);
+            }
+            if (num == 2)
+            {
+                EnemyPos = new Vector3(10, 8, 0);
+            }
+            CreateItem(item[3], EnemyPos, Quaternion.identity);
+            pubArg.enemyNum++;
         }
-        if (num == 1)
-        {
-            EnemyPos = new Vector3(0, 8, 0);
-        }
-        if (num == 2)
-        {
-            EnemyPos = new Vector3(10, 8, 0);
-        }
-        CreateItem(item[3], EnemyPos, Quaternion.identity);
     }
     
 }

@@ -33,6 +33,7 @@ public class StrongEnemy : MonoBehaviour
     private float timevalChangeDirection = 0;
     void Start()
     {
+        PropFlag.boomFlag = false;
         //sr = GetComponent<SpriteRenderer>();
         a_tor = GetComponent<Animator>();
         flag = Random.Range(0, 3);
@@ -51,6 +52,36 @@ public class StrongEnemy : MonoBehaviour
     {
 
 
+        
+    }
+    private void FixedUpdate()//这里面执行可以避免碰墙抖动
+    {
+        if (PropFlag.stopFlag == true)
+        {
+            pubArg.stopTime -= Time.deltaTime;
+            if (pubArg.stopTime <= 0)
+            {
+                pubArg.stopTime = 50;
+                PropFlag.stopFlag = false;
+            }
+            else
+            {
+                return;
+            }
+
+        }
+        Move();
+
+        Vector3 curPosition = transform.position;
+        if (prePosition == curPosition)
+        {
+            timevalChangeDirection = 4.0f;
+        }
+        prePosition = curPosition;
+        if (PropFlag.boomFlag == true)
+        {
+            Die();
+        }
         //攻击的时间间隔
         if (timeVal >= 2f)
         {
@@ -60,17 +91,6 @@ public class StrongEnemy : MonoBehaviour
         {
             timeVal += Time.deltaTime;
         }
-    }
-    private void FixedUpdate()//这里面执行可以避免碰墙抖动
-    {
-        Move();
-
-        Vector3 curPosition = transform.position;
-        if (prePosition == curPosition)
-        {
-            timevalChangeDirection = 4.0f;
-        }
-        prePosition = curPosition;
     }
 
     //坦克的攻击方法
@@ -84,7 +104,7 @@ public class StrongEnemy : MonoBehaviour
     {
         if (timevalChangeDirection >= 3)
         {
-            Debug.Log("我改变了一下方向");
+            //Debug.Log("我改变了一下方向");
             num = Random.Range(0, 4);
             if (num == 3)
             {

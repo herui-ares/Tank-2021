@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public enum PropType 
 { 
     AddLife,
@@ -17,8 +16,15 @@ public class PropType_Sprite
     public PropType type;
     public Sprite sp;
 }
+public class PropFlag 
+{
+    public static bool boomFlag = false;
+    public static bool stopFlag = false;
+    public static bool protect = false;
+}
 public class Prop : MonoBehaviour
 {
+
     public GameObject barrierPrefab;
     public PropType_Sprite[] propType_Sprites;
     private SpriteRenderer spriteRenderer;
@@ -48,15 +54,19 @@ public class Prop : MonoBehaviour
                     Destroy(gameObject);
                     break;
                 case PropType.FixTime:
+                    PropFlag.stopFlag = true;
+                    
                     Debug.Log("this is " + propType);
+                    Debug.Log("the stopFlag is " + PropFlag.stopFlag);
                     Destroy(gameObject);
                     break;
                 case PropType.Protect:
-                    Protect();
+                    PropFlag.protect = true;
                     Debug.Log("this is " + propType);
                     Destroy(gameObject);
                     break;
                 case PropType.Bomb:
+                    PropFlag.boomFlag = true;
                     Debug.Log("this is " + propType);
                     Destroy(gameObject);
                     break;
@@ -85,16 +95,7 @@ public class Prop : MonoBehaviour
     {
 
     }
-    private void Protect()
-    {
-        //用障碍墙把老家围起来
-        CreateItem(barrierPrefab, new Vector3(-1, -8, 0), Quaternion.identity);
-        CreateItem(barrierPrefab, new Vector3(1, -8, 0), Quaternion.identity);
-        for (int i = -1; i < 2; i++)
-        {
-            CreateItem(barrierPrefab, new Vector3(i, -7, 0), Quaternion.identity);
-        }
-    }
+    
     private void CreateItem(GameObject createGameObject, Vector3 createPosition, Quaternion createRotation)
     {
         GameObject itemGo = Instantiate(createGameObject, createPosition, createRotation);

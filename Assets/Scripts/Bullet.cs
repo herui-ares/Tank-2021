@@ -41,6 +41,7 @@ public class Bullet : MonoBehaviour
                 {
                     collision.SendMessage("Blend");
                     Destroy(gameObject);
+                    pubArg.enemyNum--;
                 }
                 
                 break;
