@@ -9,8 +9,8 @@ public enum ObjectType
     Grass,
     River,
     Wall,
-    Enemy,
-    Prop
+    Prop,
+    Born
 }
 
 [System.Serializable] //加这个标签，类对应的列表才能看到
@@ -21,55 +21,39 @@ public class Type_Prefab
 }
 public class ObjectPool : MonoBehaviour
 {
-    private static ObjectPool inst;
-    //public static ObjectPool Instance;
+    public static ObjectPool Instance;
     //public Dictionary<ObjectType, GameObject> keyValuePairs = new Dictionary<ObjectType, GameObject>();//字典不能序列化出来，unity看不到
     public List<Type_Prefab> typePrefabs = new List<Type_Prefab>();  //通过类和链表实现
     private Dictionary<ObjectType, List<GameObject>> dic = new Dictionary<ObjectType, List<GameObject>>();
 
-    //可以先在这里面创建一些对象
-    public static ObjectPool Instance
-    {
-        get
-        {
-            return inst;
-        }
-        set
-        {
-            inst = value;
-        }
-    }
-    private void awake()
+    //可以先在这里面创建一些对象 
+    private void Awake()
     {
         Instance = this;
     }
     private GameObject GetPreByType(ObjectType type)
     {
-        Debug.Log("我正在取");
-        foreach ( var item in typePrefabs)
+        foreach (var item in typePrefabs)
         {
-            if(item.type == type)
+            if (item.type == type)
             {
                 return item.prefab;
             }
-            
+
         }
         return null;
     }
     //通过物体类型，从相应的对象池取
-    public GameObject Get( Vector3 pos, Quaternion rot)
+    public GameObject Get(ObjectType type, Vector3 pos, Quaternion rot)
     {
-        ObjectType type = ObjectType.Enemy;
-        Debug.Log("我正在取");
-        GameObject temp = GetPreByType(type);
-        //temp = Instantiate(pre, pos, rot);
+        GameObject temp = null;
         //判断字典中有没有与该类型匹配的对象池，没有则创建
         if (dic.ContainsKey(type) == false)
         {
             dic.Add(type, new List<GameObject>());
         }
         //判断该类型对象池中有没有物体
-        if(dic[type].Count > 0)
+        if (dic[type].Count > 0)
         {
             int index = dic[type].Count - 1;
             temp = dic[type][index];
@@ -78,11 +62,11 @@ public class ObjectPool : MonoBehaviour
         else
         {
             GameObject pre = GetPreByType(type);
-            if(pre != null)
+            if (pre != null)
             {
                 temp = Instantiate(pre, pos, rot);
             }
-            
+
         }
         temp.transform.position = pos;
         temp.transform.rotation = rot;

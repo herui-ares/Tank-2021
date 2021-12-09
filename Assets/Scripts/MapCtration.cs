@@ -12,52 +12,27 @@ public class MapCtration : MonoBehaviour
 {
     //装饰初始化地图的数组
     //0老家 1墙 2 障碍 3 出生效果 4 河流 5 草 6 空气墙
-    public GameObject[] item;
-
+    public GameObject Heart;
     //已经有东西的位置列表
     private List<Vector3> itemPositionList = new List<Vector3>();
 
-    GameObject ite1;
-    GameObject ite2;
-    GameObject ite3;
-    GameObject ite4;
-    GameObject ite5;
-    bool isIns = false;
+    private Dictionary<ObjectType, List<GameObject>> PoolObjectDic = new Dictionary<ObjectType, List<GameObject>>();
+    
     void Update()
     {
         //生成保护的家
-        if (PropFlag.protect == true && isIns == false)
+        if (PropFlag.protect == true)
         {
-            ite1 =  Instantiate(item[2], new Vector3(-1, -8, 0), Quaternion.identity);
-            ite2 =  Instantiate(item[2], new Vector3(1, -8, 0), Quaternion.identity);
-            ite3 =  Instantiate(item[2], new Vector3(-1, -7, 0), Quaternion.identity);
-            ite4 =  Instantiate(item[2], new Vector3(0, -7, 0), Quaternion.identity);
-            ite5 =  Instantiate(item[2], new Vector3(1, -7, 0), Quaternion.identity);
-            isIns = true;
-            pubArg.protectTime = 10;
-        }
-        if(PropFlag.protect == true)
-        {
-            pubArg.protectTime -= Time.deltaTime;
-        }
-        
-        if(pubArg.protectTime <= 0 && PropFlag.protect == true)
-        {
-            Destroy(ite1);
-            Destroy(ite2);
-            Destroy(ite3);
-            Destroy(ite4);
-            Destroy(ite5);
-            Instantiate(item[1], new Vector3(-1, -8, 0), Quaternion.identity);
-            Instantiate(item[1], new Vector3(1, -8, 0), Quaternion.identity);
-            Instantiate(item[1], new Vector3(-1, -7, 0), Quaternion.identity);
-            Instantiate(item[1], new Vector3(0, -7, 0), Quaternion.identity);
-            Instantiate(item[1], new Vector3(1, -7, 0), Quaternion.identity);
-            pubArg.protectTime = 10;
-            isIns = false;
             PropFlag.protect = false;
+            Destroy(InsAndLoc(ObjectType.Barrier, new Vector3(-1, -8, 0)), 5);
+            Destroy(InsAndLoc(ObjectType.Barrier, new Vector3(1, -8, 0)), 5);
+            for (int i = -1; i < 2; i++)
+            {
+                
+                Destroy(InsAndLoc(ObjectType.Barrier, new Vector3(i, -7, 0)), 5);
+            }
+            Invoke("CreatHome", 5);
         }
-
     }
     private void Awake()
     {
@@ -66,80 +41,98 @@ public class MapCtration : MonoBehaviour
     private void InitMap()
     {
         //实例化老家
-        Instantiate(item[0], new Vector3(0, -8, 0), Quaternion.identity);
-        //CreateItem(item[0], new Vector3(0, -8, 0), Quaternion.identity);
+        CreateItem(Heart, new Vector3(0, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(0, -8, 0));
         //用墙把老家围起来
-        //
-        CreateItem(item[1], new Vector3(-1, -8, 0), Quaternion.identity);
-        itemPositionList.Add(new Vector3(-1, -8, 0));
-        CreateItem(item[1], new Vector3(1, -8, 0), Quaternion.identity);
-        itemPositionList.Add(new Vector3(1, -8, 0));
-        for (int i = -1; i < 2; i++)
-        {
-            CreateItem(item[1], new Vector3(i, -7, 0), Quaternion.identity);
-            itemPositionList.Add(new Vector3(i, -7, 0));
-        }
+       // CreatHome();
         //实例化外围墙  空气墙
         for (int i = -11; i < 12; i++)
         {
-            CreateItem(item[6], new Vector3(i, 9, 0), Quaternion.identity);
+            InsAndLoc(ObjectType.AirBarrier, new Vector3(i, 9, 0));
         }
         for (int i = -11; i < 12; i++)
         {
-            CreateItem(item[6], new Vector3(i, -9, 0), Quaternion.identity);
+            InsAndLoc(ObjectType.AirBarrier, new Vector3(i, -9, 0));
         }
         for (int i = -8; i < 9; i++)
         {
-            CreateItem(item[6], new Vector3(-11, i, 0), Quaternion.identity);
-
+            InsAndLoc(ObjectType.AirBarrier, new Vector3(-11, i, 0));
         }
         for (int i = -8; i < 9; i++)
         {
-            CreateItem(item[6], new Vector3(11, i, 0), Quaternion.identity);
+            InsAndLoc(ObjectType.AirBarrier, new Vector3(11, i, 0));
         }
         //初始化玩家，出生特效
-        GameObject go = Instantiate(item[3], new Vector3(-2, -8, 0), Quaternion.identity);
+        
+        GameObject go = InsAndLoc(ObjectType.Born, new Vector3(-2, -8, 0)); ;
         go.GetComponent<Born>().cratePlayer = true;
 
         //产生敌人
-        CreateItem(item[3], new Vector3(-10, 8, 0), Quaternion.identity);
-        CreateItem(item[3], new Vector3(0, 8, 0), Quaternion.identity);
-        CreateItem(item[3], new Vector3(8, 8, 0), Quaternion.identity);
+        InsAndLoc(ObjectType.Born, new Vector3(-10, 8, 0));
+        InsAndLoc(ObjectType.Born, new Vector3(0, 8, 0));
+        InsAndLoc(ObjectType.Born, new Vector3(8, 8, 0));
         InvokeRepeating("CreateEnemy", 4, 5);
         
         //实例化地图
         for (int i = 0; i < 20; i++)
         {
             Vector3 randomPosition = CreateRandomPosition();
-            itemPositionList.Add(randomPosition);
-            CreateItem(item[1], randomPosition, Quaternion.identity);
+            InsAndLoc(ObjectType.Wall, randomPosition);
 
             randomPosition = CreateRandomPosition();
-            itemPositionList.Add(randomPosition);
-            CreateItem(item[1], randomPosition, Quaternion.identity);
+            InsAndLoc(ObjectType.Wall, randomPosition);
+
 
             randomPosition = CreateRandomPosition();
-            itemPositionList.Add(randomPosition);
-            CreateItem(item[1], randomPosition, Quaternion.identity);
+            InsAndLoc(ObjectType.Wall, randomPosition);
+
 
             randomPosition = CreateRandomPosition();
-            itemPositionList.Add(randomPosition);
-            CreateItem(item[2], randomPosition, Quaternion.identity);
+            InsAndLoc(ObjectType.Barrier, randomPosition);
+
 
             randomPosition = CreateRandomPosition();
-            itemPositionList.Add(randomPosition);
-            CreateItem(item[4], randomPosition, Quaternion.identity);
+            InsAndLoc(ObjectType.River, randomPosition);
+
 
             randomPosition = CreateRandomPosition();
-            itemPositionList.Add(randomPosition);
-            CreateItem(item[5], randomPosition, Quaternion.identity);
+            InsAndLoc(ObjectType.Grass, randomPosition);
+
         }
     }
     private void CreateItem(GameObject createGameObject, Vector3 createPosition, Quaternion createRotation)
     {
         GameObject itemGo = Instantiate(createGameObject, createPosition, createRotation);
         itemGo.transform.SetParent(gameObject.transform);
+    }
+
+    //实例化并添加进位置列表
+    private GameObject InsAndLoc(ObjectType type, Vector3 pos)
+    {
+        GameObject obj = ObjectPool.Instance.Get(type, pos, Quaternion.identity);
+        obj.transform.SetParent(gameObject.transform);
+        if (!itemPositionList.Contains(pos))
+        {
+            itemPositionList.Add(pos);
+        }
+        if (PoolObjectDic.ContainsKey(type) == false)
+        {
+            PoolObjectDic.Add(type, new List<GameObject>());
+        }
+        PoolObjectDic[type].Add(obj);
+        return obj;
+    }
+    // 实例化老家的围墙
+    private void CreatHome()
+    {
+        //用墙把老家围起来
+        InsAndLoc(ObjectType.Wall, new Vector3(-1, -8, 0));
+        InsAndLoc(ObjectType.Wall, new Vector3(1, -8, 0));
+        for (int i = -1; i < 2; i++)
+        {
+            InsAndLoc(ObjectType.Wall, new Vector3(i, -7, 0));
+        }
+        
     }
 
     //产生随机位置的方法
@@ -156,7 +149,6 @@ public class MapCtration : MonoBehaviour
         }
         //
     }
-
     //用来判断位置列表中是否有这个位置
     private bool HasThePosition(Vector3 createPos)
     {
@@ -187,9 +179,8 @@ public class MapCtration : MonoBehaviour
             {
                 EnemyPos = new Vector3(10, 8, 0);
             }
-            CreateItem(item[3], EnemyPos, Quaternion.identity);
+            InsAndLoc(ObjectType.Born, EnemyPos);
             pubArg.enemyNum++;
         }
     }
-    
 }

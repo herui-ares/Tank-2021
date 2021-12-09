@@ -207,9 +207,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1.5193545, y: -2.8380969, z: -153.64268}
+    m_Target: {x: 366.25348, y: 233.40186, z: -64.102615}
     speed: 2
-    m_Value: {x: 1.5193545, y: -2.8380969, z: -153.64268}
+    m_Value: {x: 366.25348, y: 233.40186, z: -64.102615}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -259,9 +259,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 17.256176
+    m_Target: 277.42053
     speed: 2
-    m_Value: 17.256176
+    m_Value: 277.42053
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -562,7 +562,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 8ca3faffd4c9ffffe0c9ffff66d2ffff6ae4ffffa4e5ffff60fbffff48400000
+      m_ExpandedIDs: aaf8ffffbefaffff60fbffffda400000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -651,20 +651,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/GameResource/Prefabs/Map
+    - Assets/GameResource/Prefabs/Effect
   m_ViewMode: 1
   m_StartGridSize: 60
   m_LastFolders:
-  - Assets/GameResource/Prefabs/Map
+  - Assets/GameResource/Prefabs/Effect
   m_LastFoldersGridSize: 60
-  m_LastProjectPath: "D:\\softinstall\\Unity20\\Project\\Tank\u526F\u672C"
+  m_LastProjectPath: E:\projects\Tank-2021
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: c83f0000
-    m_LastClickedID: 16328
-    m_ExpandedIDs: 00000000b23f0000b43f0000b63f000000ca9a3b
+    m_SelectedIDs: ce3f0000
+    m_LastClickedID: 16334
+    m_ExpandedIDs: 00000000ba3f0000bc3f0000be3f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -692,7 +692,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000b23f0000b43f0000b63f000000ca9a3b
+    m_ExpandedIDs: 00000000ba3f0000bc3f0000be3f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -720,7 +720,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: 6c50000076500000484f00007c5000003c3c0000963e00009c3c0000923e00007c3d0000ee3c000000000000883d0000803d000066420000
+    m_ExpandedInstanceIDs: 6c50000076500000484f00007c5000003c3c0000963e00009c3c0000923e00007c3d0000ee3c000000000000883d0000803d000066420000763f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
