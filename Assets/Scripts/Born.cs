@@ -29,11 +29,24 @@ public class Born : MonoBehaviour
         {
             
             int num = Random.Range(0, 3);
-            Instantiate(enemyPrefabList[num], transform.position, transform.rotation);
-            //Debug.Log("我正在生成");
-            //ObjectPool.Instance.Get(transform.position, transform.rotation);
-           // ObjectPool.Instance.Get
-            
+            //Instantiate(enemyPrefabList[num], transform.position, transform.rotation);
+            //ObjectPool.Instance.Get(ObjectType.Enemy1, transform.position, transform.rotation);
+            if (num == 0)
+            {
+                GameObject enemy = ObjectPool.Instance.Get(ObjectType.Enemy1, transform.position, transform.rotation);
+                Enemy_List.enemy_List.Add(enemy);
+            }
+            else if(num == 1)
+            {
+                GameObject enemy = ObjectPool.Instance.Get(ObjectType.Enemy2, transform.position, transform.rotation);
+                Enemy_List.enemy_List.Add(enemy);
+            }
+            else if (num == 2)
+            {
+                GameObject enemy = ObjectPool.Instance.Get(ObjectType.Enemy3, transform.position, transform.rotation);
+                Enemy_List.enemy_List.Add(enemy);
+            }
+            //Debug.Log("the length of enemy_List = " + Enemy_List.enemy_List.Count);
         }
         
     }

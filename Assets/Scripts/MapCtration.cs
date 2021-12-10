@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class pubArg
 {
-    public static float stopTime = 50;
+    public static float stopTime = 30;
     public static int enemyNum = 0;
-    public static float protectTime = 10;
+    public static int EnemyProduct = 20;
 }
 public class MapCtration : MonoBehaviour
 {
@@ -24,14 +24,14 @@ public class MapCtration : MonoBehaviour
         if (PropFlag.protect == true)
         {
             PropFlag.protect = false;
-            Destroy(InsAndLoc(ObjectType.Barrier, new Vector3(-1, -8, 0)), 5);
-            Destroy(InsAndLoc(ObjectType.Barrier, new Vector3(1, -8, 0)), 5);
+            Destroy(InsAndLoc(ObjectType.Barrier, new Vector3(-1, -8, 0)), 30);
+            Destroy(InsAndLoc(ObjectType.Barrier, new Vector3(1, -8, 0)), 30);
             for (int i = -1; i < 2; i++)
             {
                 
-                Destroy(InsAndLoc(ObjectType.Barrier, new Vector3(i, -7, 0)), 5);
+                Destroy(InsAndLoc(ObjectType.Barrier, new Vector3(i, -7, 0)), 30);
             }
-            Invoke("CreatHome", 5);
+            Invoke("CreatHome", 30);
         }
     }
     private void Awake()
@@ -40,11 +40,21 @@ public class MapCtration : MonoBehaviour
     }
     private void InitMap()
     {
+        //关卡开始要清空一下
+        foreach(var item in PoolObjectDic)
+        {
+            foreach(var obje in item.Value)
+            {
+                ObjectPool.Instance.Add(item.Key, obje);
+            }
+            PoolObjectDic.Clear();
+        }
+
         //实例化老家
         CreateItem(Heart, new Vector3(0, -8, 0), Quaternion.identity);
         itemPositionList.Add(new Vector3(0, -8, 0));
         //用墙把老家围起来
-       // CreatHome();
+        CreatHome();
         //实例化外围墙  空气墙
         for (int i = -11; i < 12; i++)
         {
@@ -71,6 +81,8 @@ public class MapCtration : MonoBehaviour
         InsAndLoc(ObjectType.Born, new Vector3(-10, 8, 0));
         InsAndLoc(ObjectType.Born, new Vector3(0, 8, 0));
         InsAndLoc(ObjectType.Born, new Vector3(8, 8, 0));
+        pubArg.enemyNum = 3;
+        pubArg.EnemyProduct -= 3;
         InvokeRepeating("CreateEnemy", 4, 5);
         
         //实例化地图
@@ -163,24 +175,29 @@ public class MapCtration : MonoBehaviour
     }
     private void CreateEnemy()
     {
-        if (pubArg.enemyNum <= 8)
+        if(pubArg.EnemyProduct > 0)
         {
-            Vector3 EnemyPos = new Vector3();
-            int num = Random.Range(0, 3);
-            if (num == 0)
+            if (pubArg.enemyNum < 8)
             {
-                EnemyPos = new Vector3(-10, 8, 0);
+                Vector3 EnemyPos = new Vector3();
+                int num = Random.Range(0, 3);
+                if (num == 0)
+                {
+                    EnemyPos = new Vector3(-10, 8, 0);
+                }
+                if (num == 1)
+                {
+                    EnemyPos = new Vector3(0, 8, 0);
+                }
+                if (num == 2)
+                {
+                    EnemyPos = new Vector3(10, 8, 0);
+                }
+                InsAndLoc(ObjectType.Born, EnemyPos);
+                pubArg.enemyNum++;
+                pubArg.EnemyProduct--;
             }
-            if (num == 1)
-            {
-                EnemyPos = new Vector3(0, 8, 0);
-            }
-            if (num == 2)
-            {
-                EnemyPos = new Vector3(10, 8, 0);
-            }
-            InsAndLoc(ObjectType.Born, EnemyPos);
-            pubArg.enemyNum++;
         }
+        
     }
 }

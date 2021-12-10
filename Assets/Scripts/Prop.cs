@@ -29,6 +29,8 @@ public class Prop : MonoBehaviour
     public PropType_Sprite[] propType_Sprites;
     private SpriteRenderer spriteRenderer;
     private PropType propType;
+
+    private List<GameObject> enemy_Temp = new List<GameObject>();
     private void Start()
     {
         GetComponent<Collider2D>().isTrigger = true;
@@ -45,39 +47,39 @@ public class Prop : MonoBehaviour
     {
         if (collision.tag == "Tank")
         {
-            
             switch (propType)
             {
                 case PropType.AddLife:
                     AddLife();
-                    Debug.Log("this is " + propType);
+                    //Debug.Log("this is " + propType);
                     Destroy(gameObject);
                     break;
                 case PropType.FixTime:
                     PropFlag.stopFlag = true;
                     
-                    Debug.Log("this is " + propType);
-                    Debug.Log("the stopFlag is " + PropFlag.stopFlag);
+                    //Debug.Log("this is " + propType);
+                    //Debug.Log("the stopFlag is " + PropFlag.stopFlag);
                     Destroy(gameObject);
                     break;
                 case PropType.Protect:
                     PropFlag.protect = true;
-                    Debug.Log("this is " + propType);
+                    //Debug.Log("this is " + propType);
                     Destroy(gameObject);
                     break;
                 case PropType.Bomb:
-                    PropFlag.boomFlag = true;
-                    Debug.Log("this is " + propType);
                     Destroy(gameObject);
+                    Bomb();
+                    //PropFlag.boomFlag = true;
+                    Debug.Log("this is " + propType);
                     break;
                 case PropType.FirePower:
                     collision.SendMessage("FirePower");
-                    Debug.Log("this is " + propType);
+                    //Debug.Log("this is " + propType);
                     Destroy(gameObject);
                     break;
                 case PropType.Cover:
                     collision.SendMessage("Cover");
-                    Debug.Log("this is" + propType);
+                    //Debug.Log("this is" + propType);
                     Destroy(gameObject);
                     break;
                 default:
@@ -102,7 +104,18 @@ public class Prop : MonoBehaviour
     }
     private void Bomb()
     {
-
+        foreach(GameObject obj in Enemy_List.enemy_List)
+        {
+            Debug.Log("Bomb1");
+            Debug.Log(obj.tag);
+            enemy_Temp.Add(obj);
+            //obj.SendMessage("Die");//这里新加了一个列表，因为不能边foreach边删除enemy_list的内容 
+        }
+        foreach(GameObject obj in enemy_Temp)
+        {
+            obj.SendMessage("Die");
+        }
+        enemy_Temp.Clear();
     }
     private void FirePower()
     {

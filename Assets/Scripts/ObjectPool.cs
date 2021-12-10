@@ -10,7 +10,10 @@ public enum ObjectType
     River,
     Wall,
     Prop,
-    Born
+    Born,
+    Enemy1,
+    Enemy2,
+    Enemy3
 }
 
 [System.Serializable] //加这个标签，类对应的列表才能看到
@@ -18,6 +21,10 @@ public class Type_Prefab
 {
     public ObjectType type;
     public GameObject prefab;
+}
+public class Enemy_List
+{
+    public static List<GameObject> enemy_List = new List<GameObject>();
 }
 public class ObjectPool : MonoBehaviour
 {
@@ -30,6 +37,24 @@ public class ObjectPool : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        GameObject ene1 = null;
+        GameObject pre = null;
+        for (int i = 0; i < 10; i++)
+        {
+            pre = GetPreByType(ObjectType.Enemy1);//先创建一些敌人，，由于奖励机制是在创建的时候生成的，所以通过对象池生成的敌人
+            ene1 = Instantiate(pre);                //奖励是一开始就固定的，（有一个小bug）如果这里不创建敌人，可能会导致不会生成新的敌人，全是对象池的现有的，以至于奖励机制都是固定的
+            ene1.SetActive(false);                  //改进，将奖励机制加在GET位置，得专门为敌人写一份奖励机制的逻辑
+            Add(ObjectType.Enemy1, ene1);
+            pre = GetPreByType(ObjectType.Enemy2);
+            ene1 = Instantiate(pre);
+            ene1.SetActive(false);
+            Add(ObjectType.Enemy2, ene1);
+            pre = GetPreByType(ObjectType.Enemy3);
+            ene1 = Instantiate(pre);
+            ene1.SetActive(false);
+            Add(ObjectType.Enemy3, ene1);
+        }
+        
     }
     private GameObject GetPreByType(ObjectType type)
     {
@@ -68,6 +93,7 @@ public class ObjectPool : MonoBehaviour
             }
 
         }
+        temp.SetActive(true);
         temp.transform.position = pos;
         temp.transform.rotation = rot;
         return temp;

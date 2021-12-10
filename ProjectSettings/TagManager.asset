@@ -10,6 +10,9 @@ TagManager:
   - Wall
   - Barrier
   - River
+  - Enemy1
+  - Enemy2
+  - Enemy3
   layers:
   - Default
   - TransparentFX

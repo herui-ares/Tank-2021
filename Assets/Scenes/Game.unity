@@ -611,6 +611,14 @@ MonoBehaviour:
   - type: 6
     prefab: {fileID: 7856036657485080666, guid: 92422b6e183ada14e86bcd4278bc7d0c,
       type: 3}
+  - type: 7
+    prefab: {fileID: 326795183089572751, guid: 763381750e56dfb42b814bdb65cd233b, type: 3}
+  - type: 8
+    prefab: {fileID: 7890335404590702638, guid: 0b5f1cbe528630840b7333ea0f05c6e4,
+      type: 3}
+  - type: 9
+    prefab: {fileID: 3752521796338212214, guid: cadde0ae39c5dd34b94f5b95bb6a811e,
+      type: 3}
 --- !u!1 &1083055188
 GameObject:
   m_ObjectHideFlags: 0

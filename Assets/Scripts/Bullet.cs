@@ -36,21 +36,34 @@ public class Bullet : MonoBehaviour
                 collision.SendMessage("Die");//这里是碰撞体的方法，也就是和Tank的Die是两个不同的
                 Destroy(gameObject);
                 break;
-            case "Enemy": 
+            case "Enemy1": 
                 if(isPlayerBullet)
                 {
                     collision.SendMessage("Blend");
                     Destroy(gameObject);
-                    pubArg.enemyNum--;
                 }
-                
+                break;
+            case "Enemy2":
+                if (isPlayerBullet)
+                {
+                    collision.SendMessage("Blend");
+                    Destroy(gameObject);
+                }
+                break;
+            case "Enemy3":
+                if (isPlayerBullet)
+                {
+                    collision.SendMessage("Blend");
+                    Destroy(gameObject);
+                }
                 break;
             case "Wall":
                 if (isPlayerBullet)
                 {
                     collision.SendMessage("PlayAudio");
                 }
-                Destroy(collision.gameObject);
+                ObjectPool.Instance.Add(ObjectType.Wall, collision.gameObject);
+                //Destroy(collision.gameObject);
                 Destroy(gameObject);
                 break;
             case "Barrier":

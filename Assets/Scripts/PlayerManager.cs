@@ -63,6 +63,11 @@ public class PlayerManager : MonoBehaviour
             
         PlayerScoreText.text = playerScore.ToString();
         PlayerLifeValueText.text = lifeValue.ToString();
+        if(playerScore == 2)
+        {
+            Invoke("ReturnToTheNextScence", 3);
+            return;
+        }
     }
     private void Recover()
     {
@@ -88,5 +93,9 @@ public class PlayerManager : MonoBehaviour
     private void ReturnToTheMainMenu()
     {
         SceneManager.LoadScene(0);
+    }
+    private void ReturnToTheNextScence()
+    {
+        SceneManager.LoadScene(1);
     }
 }

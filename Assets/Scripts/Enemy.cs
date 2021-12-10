@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
         //sr = GetComponent<SpriteRenderer>();
         a_tor = GetComponent<Animator>();
         num = Random.Range(0, 2);
-        if (num == 1)
+        if (num == 1 || num == 0)
         {
             award = true;
             ++lifeValue;
@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
     }
     private void FixedUpdate()//这里面执行可以避免碰墙抖动
     {
-        if(PropFlag.stopFlag == true)
+        if (PropFlag.stopFlag == true)
         {
             //Debug.Log("the time" + stopTime);
             pubArg.stopTime -= Time.deltaTime;
@@ -62,12 +62,7 @@ public class Enemy : MonoBehaviour
             {
                 pubArg.stopTime = 50;
                 PropFlag.stopFlag = false;
-            }
-            else
-            {
-                return;
-            }
-               
+            }     
         }
         Move();
         
@@ -77,19 +72,19 @@ public class Enemy : MonoBehaviour
             timevalChangeDirection = 4.0f;
         }
         prePosition = curPosition;
-        if(PropFlag.boomFlag == true)
-        {
-            Die();
-        }
+
         //攻击的时间间隔
-        if (timeVal >= 2f)
+        if (PropFlag.stopFlag == false)
         {
-            Attack();
-        }
-        else
-        {
-            timeVal += Time.deltaTime;
-        }
+            if (timeVal >= 2f)
+            {
+                Attack();
+            }
+            else
+            {
+                timeVal += Time.deltaTime;
+            }
+        }  
     }
 
     //坦克的攻击方法
@@ -104,8 +99,11 @@ public class Enemy : MonoBehaviour
         if(timevalChangeDirection >= 3)
         {
             //Debug.Log("我改变了一下方向");
-            num = Random.Range(0, 4);
-            if(num == 3)
+            if (PropFlag.stopFlag == false)
+            {
+                num = Random.Range(0, 4);
+            }
+            if (num == 3)
             {
                 v = -1;
                 h = 0;
@@ -131,9 +129,12 @@ public class Enemy : MonoBehaviour
         {
             timevalChangeDirection += Time.fixedDeltaTime;
         }
-        
-        
-        transform.Translate(Vector3.right * h * moveSpeed * Time.deltaTime, Space.World);
+
+        if (PropFlag.stopFlag == false)
+        {
+            transform.Translate(Vector3.right * h * moveSpeed * Time.deltaTime, Space.World);
+        }
+            
         if (h < 0)
         {
             //sr.sprite = tankeSprite[3];
@@ -163,8 +164,12 @@ public class Enemy : MonoBehaviour
         }
         if (h != 0) return;//
 
-       
-        transform.Translate(Vector3.up * v * moveSpeed * Time.deltaTime, Space.World);
+        if (PropFlag.stopFlag == false)
+        {
+            transform.Translate(Vector3.up * v * moveSpeed * Time.deltaTime, Space.World);
+        }
+
+        
 
         if (v < 0)
         {
@@ -201,7 +206,10 @@ public class Enemy : MonoBehaviour
         if(award == true)
         {
             award = false;
-            Vector3 RandomPosition = new Vector3(Random.Range(-10, 11), Random.Range(-8, 8), 0);
+            float xLocate = Random.Range(-10f, 11f);
+            float yLocate = Random.Range(-8, 7);
+            Vector3 RandomPosition = new Vector3(xLocate, yLocate, 0);
+
             Instantiate(Prop, RandomPosition, Quaternion.identity);
         }
         
@@ -222,7 +230,24 @@ public class Enemy : MonoBehaviour
         Instantiate(explosionPrefab, transform.position, transform.rotation);
 
         //死亡
-        Destroy(gameObject);
+        if(gameObject.tag == "Enemy1")
+        {
+            ObjectPool.Instance.Add(ObjectType.Enemy1, gameObject);
+            Enemy_List.enemy_List.Remove(gameObject);
+        }
+        else if (gameObject.tag == "Enemy2")
+        {
+            ObjectPool.Instance.Add(ObjectType.Enemy2, gameObject);
+            Enemy_List.enemy_List.Remove(gameObject);
+        }
+        else if (gameObject.tag == "Enemy3")
+        {
+            ObjectPool.Instance.Add(ObjectType.Enemy3, gameObject);
+            Enemy_List.enemy_List.Remove(gameObject);
+        }
+        pubArg.enemyNum--;
+        //Debug.Log("the length of enemy_List = " + Enemy_List.enemy_List.Count);
+        //Destroy(gameObject);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

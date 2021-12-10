@@ -39,20 +39,17 @@ public class StrongEnemy : MonoBehaviour
         flag = Random.Range(0, 3);
         lifeValue += flag;
         num = Random.Range(0, 2);
-        if (num == 1)
+        if (num == 1 || num == 0)
         {
             award = true;
             ++lifeValue;
         }
 
     }
-
     // Update is called once per frame
     void Update()
     {
-
-
-        
+       
     }
     private void FixedUpdate()//这里面执行可以避免碰墙抖动
     {
@@ -64,11 +61,6 @@ public class StrongEnemy : MonoBehaviour
                 pubArg.stopTime = 50;
                 PropFlag.stopFlag = false;
             }
-            else
-            {
-                return;
-            }
-
         }
         Move();
 
@@ -78,19 +70,19 @@ public class StrongEnemy : MonoBehaviour
             timevalChangeDirection = 4.0f;
         }
         prePosition = curPosition;
-        if (PropFlag.boomFlag == true)
-        {
-            Die();
-        }
         //攻击的时间间隔
-        if (timeVal >= 2f)
+        if (PropFlag.stopFlag == false)
         {
-            Attack();
+            if (timeVal >= 2f)
+            {
+                Attack();
+            }
+            else
+            {
+                timeVal += Time.deltaTime;
+            }
         }
-        else
-        {
-            timeVal += Time.deltaTime;
-        }
+           
     }
 
     //坦克的攻击方法
@@ -105,7 +97,11 @@ public class StrongEnemy : MonoBehaviour
         if (timevalChangeDirection >= 3)
         {
             //Debug.Log("我改变了一下方向");
-            num = Random.Range(0, 4);
+            if (PropFlag.stopFlag == false)
+            {
+                num = Random.Range(0, 4);
+            }
+            
             if (num == 3)
             {
                 v = -1;
@@ -133,8 +129,11 @@ public class StrongEnemy : MonoBehaviour
             timevalChangeDirection += Time.fixedDeltaTime;
         }
 
-
-        transform.Translate(Vector3.right * h * moveSpeed * Time.deltaTime, Space.World);
+        if (PropFlag.stopFlag == false)
+        {
+            transform.Translate(Vector3.right * h * moveSpeed * Time.deltaTime, Space.World);
+        }
+            
         if (h < 0)
         {
             //sr.sprite = tankeSprite[3];
@@ -187,8 +186,10 @@ public class StrongEnemy : MonoBehaviour
         }
         if (h != 0) return;//
 
-
-        transform.Translate(Vector3.up * v * moveSpeed * Time.deltaTime, Space.World);
+        if (PropFlag.stopFlag == false)
+        {
+            transform.Translate(Vector3.up * v * moveSpeed * Time.deltaTime, Space.World);
+        }
 
         if (v < 0)
         {
@@ -264,7 +265,7 @@ public class StrongEnemy : MonoBehaviour
             flag = Mathf.Max(--flag, 0);
         }
         
-        Debug.Log("the flag = " + flag);
+        //Debug.Log("the flag = " + flag);
         if (lifeValue <= 0)
         {
             Die();
@@ -282,7 +283,24 @@ public class StrongEnemy : MonoBehaviour
         Instantiate(explosionPrefab, transform.position, transform.rotation);
 
         //死亡
-        Destroy(gameObject);
+        if (gameObject.tag == "Enemy1")
+        {
+            ObjectPool.Instance.Add(ObjectType.Enemy1, gameObject);
+            Enemy_List.enemy_List.Remove(gameObject);
+        }
+        else if (gameObject.tag == "Enemy2")
+        {
+            ObjectPool.Instance.Add(ObjectType.Enemy2, gameObject);
+            Enemy_List.enemy_List.Remove(gameObject);
+        }
+        else if (gameObject.tag == "Enemy3")
+        {
+            ObjectPool.Instance.Add(ObjectType.Enemy3, gameObject);
+            Enemy_List.enemy_List.Remove(gameObject);
+        }
+        pubArg.enemyNum--;
+        //Debug.Log("the length of enemy_List = " + Enemy_List.enemy_List.Count);
+        //Destroy(gameObject);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

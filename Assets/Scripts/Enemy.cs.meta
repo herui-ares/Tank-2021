@@ -3,7 +3,13 @@ guid: b2bc775cef739594e9f0daa2f65c0a9e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - bulletPrefab: {fileID: 327775809252804755, guid: 3febe618b1437cf4b9ed6f397533686e,
+      type: 3}
+  - explosionPrefab: {fileID: 1999039476538798581, guid: 0017208493c48dd4ab5a9c795ee2f5d5,
+      type: 3}
+  - hitAudio: {fileID: 8300000, guid: a36f2278a85dfc8458b569c2b95bacb6, type: 3}
+  - Prop: {fileID: 3130688222160636664, guid: 65710c0c236499b40b58555d9fce5062, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
